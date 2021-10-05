@@ -1,6 +1,6 @@
 //==== variables==== y selectores   
 const formulario = document.querySelector('#agregar-gasto');
-const agostosLista = document.querySelector('#gastos ul');
+const gastosListado = document.querySelector('#gastos ul');
 
 
 //====eventos=======
@@ -20,7 +20,7 @@ class Presupuesto {
     };
     nuevoGatos(obj){
         this.gastos = [...this.gastos, obj]
-        console.log(this.gastos);
+        // console.log(this.gastos);
     };
 };
 
@@ -45,6 +45,35 @@ class UI{
                 divMensaje.remove();
             }, 3000);
     }
+    //iterar sobre cada gasto
+    agregarGastoListado(gastos){
+        this.limpiarHtml();
+            gastos.forEach(gasto => {
+               const {nombre, cantidad, id}= gasto;
+               //crear un li
+               const li = document.createElement('li');
+                li.className ='list-group-item d-flex justify-content-between aling-items-center';
+                // li.setAttribute('data-id', id);
+                li.dataset.id = id;
+                //agregar gastos al HTML  
+                li.innerHTML=`${nombre} <span class="badge badge-primary badge-pill">${cantidad}</span>                
+                `;
+               //crear un boton
+               const btn = document.createElement('button');
+                btn.classList.add('btn' ,'btn-danger');
+                btn.textContent= 'Borrar'
+                li.appendChild(btn);
+               // instar al html el gastos
+               gastosListado.appendChild(li);
+
+            });
+    };
+   //limpiar HTML
+   limpiarHtml(){
+       while (gastosListado.firstChild) {
+           gastosListado.removeChild(gastosListado.firstChild);
+       }
+   }
 };
 //instaciar
 let presupuesto;
@@ -85,7 +114,13 @@ function agregarGastos(e) {
         cantidad,
         id: Date.now()
     }
+    //añadir un nuevo gasto
     presupuesto.nuevoGatos(obj);
+    //mostar un mensaje nuevo
     ui.imprimirAlerta('Todo correcto');
+    //imprimir gastos
+    const {gastos }= presupuesto;
+    ui.agregarGastoListado(gastos);
+    //reiniciar el formulario
     formulario.reset();
 }
