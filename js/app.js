@@ -14,10 +14,13 @@ function addEventListeners() {
 //===== clases====
 class Presupuesto {
     constructor(presupuesto){
-      
         this.presupuesto = Number(presupuesto);
         this.restante =Number(presupuesto);
         this.gastos = [];
+    };
+    nuevoGatos(obj){
+        this.gastos = [...this.gastos, obj]
+        console.log(this.gastos);
     };
 };
 
@@ -33,7 +36,7 @@ class UI{
             if (tipo === 'error') {
              divMensaje.classList.add('alert-danger');
             }else{
-                divMensaje.classList.add('alert-sucess');
+                divMensaje.classList.add('alert-success');
             }
             divMensaje.textContent= mensaje;
             document.querySelector('.primario').insertBefore(divMensaje, formulario);
@@ -67,7 +70,7 @@ function agregarGastos(e) {
     e.preventDefault();
     //leer los input
     const nombre = document.querySelector('#gasto').value;
-    const cantidad = document.querySelector('#cantidad').value;
+    const cantidad = Number(document.querySelector('#cantidad').value);
 
     if (nombre === '' || cantidad === '') {
        ui.imprimirAlerta('Ambos campos son Obligatorios', 'error');
@@ -76,5 +79,13 @@ function agregarGastos(e) {
         ui.imprimirAlerta('Cantidad no valida', 'error');     
         return;   
     }
-    console.log('agregando gasto');
+    //agregar un obj-literal
+    const obj ={
+        nombre,
+        cantidad,
+        id: Date.now()
+    }
+    presupuesto.nuevoGatos(obj);
+    ui.imprimirAlerta('Todo correcto');
+    formulario.reset();
 }
