@@ -67,7 +67,7 @@ class UI{
                 // li.setAttribute('data-id', id);
                 li.dataset.id = id;
                 //agregar gastos al HTML  
-                li.innerHTML=`${nombre} <span class="badge badge-primary badge-pill"> $ ${cantidad}</span> `;
+                li.innerHTML=`${nombre} <span class="badge aling-items-center badge-primary badge-pill"> $ ${cantidad}</span> `;
                //crear un boton
                const btn = document.createElement('button');
                 btn.classList.add('btn' ,'btn-danger');
